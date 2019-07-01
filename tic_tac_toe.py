@@ -1,14 +1,16 @@
+from random import randint
+
 def print_board(board):
-    print("_____")
+    print("=======")
     print("|{}|{}|{}|".format(board[0], board[1], board[2]))
-    print("_____")
+    print("=======")
     print("|{}|{}|{}|".format(board[3], board[4], board[5]))
-    print("_____")
+    print("=======")
     print("|{}|{}|{}|".format(board[6], board[7], board[8]))
-    print("_____")
+    print("=======")
 
 def board_full(board):
-    return (board.count("O") + board.count("X")) != 9
+    return (board.count("O") + board.count("X")) == 9
 
 def user_move(board, user_choice):
     # 截取玩家選擇的格子，更新 board 這個 list 的資料
@@ -27,6 +29,17 @@ def user_move(board, user_choice):
         else:
             print("請確認你輸入的數字是在 1 到 9 之間！")
     # 回傳九宮格陣列
+    return board
+
+def com_move(board, computer_choice):
+    # 截取電腦用亂數選擇的格子，更新 board 這個 list 的資料
+    while True:
+        # 電腦只能選擇索引值 0 到 8 之間的數字
+        idx = randint(0, 8)
+        # 若該格空白，則將電腦代表的符號寫入格子
+        if board[idx] not in ["O", "X"]:
+            board[idx] = computer_choice
+            break
     return board
 
 def check_win(board, choice):
@@ -62,18 +75,26 @@ user_choices = ["O", "X"]
 print("歡迎光臨井字游戲!!!")
 # 讓使用者選擇棋子
 while True:
-    user_choice = input("請選擇 'O' 或 'X'")
-    if user_choice in ["O", "X"]：
+    user_choice = input("請選擇 'O' 或 'X'：")
+    if user_choice in ["O", "X"]:
         user_choices.remove(user_choice)
-        computer_choice = user_choice.pop()
+        computer_choice = user_choices.pop()
         break
+
+print_board(board)
 
 print("你選擇了： {} 做棋子".format(user_choice))
 # 九宮格還沒被佔滿，就繼續執行游戲
 while not board_full(board):
     # 讓使用者走下一步，回傳九宮格的狀態
     board = user_move(board, user_choice)
-
-    if determine_winner(board, user_choice)
+    print_board(board)
+    if determine_winner(board, user_choice):
+        break
+    print("輪到電腦走下一步：")
+    board = com_move(board, computer_choice)
+    print_board(board)
+    if determine_winner(board, user_choice):
         break
 
+print("感謝你玩此遊戲！")
