@@ -29,6 +29,30 @@ def user_move(board, user_choice):
     # 回傳九宮格陣列
     return board
 
+def check_win(board, choice):
+    return ((board[0] == choice and board[1] == choice and board[2] == choice) or
+           (board[3] == choice and board[4] == choice and board[5] == choice) or
+           (board[6] == choice and board[7] == choice and board[8] == choice) or
+           (board[0] == choice and board[3] == choice and board[6] == choice) or
+           (board[1] == choice and board[4] == choice and board[7] == choice) or
+           (board[2] == choice and board[5] == choice and board[8] == choice) or
+           (board[0] == choice and board[4] == choice and board[8] == choice) or
+           (board[2] == choice and board[4] == choice and board[6] == choice))
+
+def determine_winner(board, user_choice):
+    # 判斷目前的九宮格是否其中一人勝利或是平手
+    if check_win(board, user_choice):
+        print('恭喜你贏了！')
+        return True
+    elif check_win(board, computer_choice):
+        print('你輸了...')
+        return True
+    elif board_full(board) == True:
+        print('平手...')
+        return True
+    else:
+        return False
+
 
 # 代表九宮格的一維陣列
 board = list(range(1,10))
@@ -49,4 +73,7 @@ print("你選擇了： {} 做棋子".format(user_choice))
 while not board_full(board):
     # 讓使用者走下一步，回傳九宮格的狀態
     board = user_move(board, user_choice)
+
+    if determine_winner(board, user_choice)
+        break
 
